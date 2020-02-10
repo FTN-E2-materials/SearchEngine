@@ -11,16 +11,21 @@ from parser import Parser
 from graph import Graph
 from node import Node
 from vertex import Vertex
+from parseQuery import *
 
 def getAllHtmlFiles(path):
     paths = []
+    print("Files found: ")
     for root, dirs, files in os.walk(path):
         for file in files:
             if file.endswith('.html'):
                 p = root + "/" + file
                 paths.append(p)
                 print(p)
-    parse(paths)
+    if not paths:
+        print("There's no html files in the directory!")
+    else:
+        parse(paths)
 
 def parse(paths):
 
@@ -29,7 +34,6 @@ def parse(paths):
     for i in range(len(paths)):
         parsed = parser.parse(paths[i])
         graph.addTo(paths[i], parsed[0], parsed[1])
-
     globals.start = paths[0]
 
 def startingSearch(givenWord):
@@ -47,13 +51,9 @@ if __name__ == '__main__':
     # globals.givenDir = raw_input("Unesite zeljeni direktorijum: ")
 
     graph = Graph()
-
     getAllHtmlFiles(globals.root)
     print (time.time() - start_time)
 
-    test = input("Unesite upit: ")
-
+    globals.givenWord = input("Unesite upit: ")
+    parseQueryOrdinary(globals.givenWord)
     # check if user wants to exit (put some random key for exiting
-
-    globals.givenWord = test
-    startingSearch(globals.givenWord)
