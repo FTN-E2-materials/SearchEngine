@@ -2,7 +2,7 @@
 import re
 import os
 
-from HTMLParser import HTMLParser
+from html.parser import HTMLParser
 
 
 class Parser(HTMLParser):
