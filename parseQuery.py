@@ -1,8 +1,11 @@
 import globals
+from findFiles import *
 
-def parseQueryOrdinary(query):
+def parseQueryOrdinary(graph, query):
 
     query = query.lower()
+    wordsForSearch = []
+    operation = ""
 
     if query.find("and") != -1 and query.find("or") == -1 and query.find("not") == -1:
         times = query.count("and")
@@ -10,14 +13,11 @@ def parseQueryOrdinary(query):
             return False
 
         searching = query.split()
-        wordsForSearch = []
+        operation = "and"
+
         for i in range(0, len(searching)):
             if searching[i] != "and":
                 wordsForSearch.append(searching[i])
-
-        print(wordsForSearch)
-        # call intersection search
-
 
     elif query.find("and") == -1 and query.find("or") != -1 and query.find("not") == -1:
         times = query.count("or")
@@ -25,12 +25,11 @@ def parseQueryOrdinary(query):
             return False
 
         searching = query.split()
-        wordsForSearch = []
+        operation = "or"
+
         for i in range(0, len(searching)):
             if searching[i] != "or":
                 wordsForSearch.append(searching[i])
-
-        print(wordsForSearch)
 
     elif query.find("and") == 1 and query.find("or") == -1 and query.find("not") != -1:
         times = query.count("not")
@@ -38,12 +37,10 @@ def parseQueryOrdinary(query):
             return False
 
         searching = query.split()
-        wordsForSearch = []
+        operation = "not"
         for i in range(0, len(searching)):
             if searching[i] != "not":
                 wordsForSearch.append(searching[i])
-
-        print(wordsForSearch)
 
     elif query.find("and") == 1 and query.find("or") == -1 and query.find("not") == -1:
 
@@ -52,8 +49,14 @@ def parseQueryOrdinary(query):
         if len(searching) > 2:
             return False
 
-        wordsForSearch = []
+
         for i in range(0, len(searching)):
             wordsForSearch.append(searching[i])
+    else:
+        return False
 
-        print(wordsForSearch)
+    if len(wordsForSearch) < 2 and len(wordsForSearch) > 2:
+        return False
+
+
+    list1, list2 = findLists(graph, wordsForSearch[0], wordsForSearch[1])

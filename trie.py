@@ -51,4 +51,4 @@ class Trie:
             if curr_node.data is None:
                 exists = False
 
-        return exists, current_node
+        return exists, curr_node

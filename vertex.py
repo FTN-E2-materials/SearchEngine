@@ -12,11 +12,13 @@ class Vertex:
         self.links = 0  # koliko ukupno linkova sadrzi rec
         self.rank = 0
         self.num = 0
+
     def getWords(self, words):
         trie = Trie()
         for i in range(len(words)):
             trie.add(words[i])
         return trie
+        
     def countRank(self):
-        # TODO: implement self rank 
+        # TODO: implement self rank
         pass

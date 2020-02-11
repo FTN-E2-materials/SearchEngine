@@ -7,6 +7,7 @@ class Graph:
 
     def addTo(self, name, links, words):
         globals.allFiles[name] = Vertex(name, words)
+
         self.graph[name] = links
-        
+
         # TODO: implement rest

@@ -55,5 +55,5 @@ if __name__ == '__main__':
     print (time.time() - start_time)
 
     globals.givenWord = input("Unesite upit: ")
-    parseQueryOrdinary(globals.givenWord)
+    parseQueryOrdinary(graph, globals.givenWord)
     # check if user wants to exit (put some random key for exiting
