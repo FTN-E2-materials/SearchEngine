@@ -1,4 +1,5 @@
 from trie import Trie
+
 allFiles = {}
 givenWord = ""
 listEl = []

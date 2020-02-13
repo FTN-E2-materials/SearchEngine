@@ -13,10 +13,12 @@ from node import Node
 from vertex import Vertex
 from parseQuery import *
 from trie import Trie
+from printPages import *
+from colors import colors
 
 def getAllHtmlFiles(path):
     paths = []
-    print("Files found: ")
+    print("This may take a while... ")
     for root, dirs, files in os.walk(path):
         for file in files:
             if file.endswith('.html'):
@@ -28,15 +30,27 @@ def getAllHtmlFiles(path):
     else:
         parse(paths)
 
+def progress(count, total, status=''):
+    bar_len = 60
+    filled_len = int(round(bar_len * count / float(total)))
+
+    percents = round(100.0 * count / float(total), 1)
+    bar = '=' * filled_len + '-' * (bar_len - filled_len)
+
+    sys.stdout.write('\r[%s] %s%s ...%s\r' % (bar, percents, '%', status))
+    sys.stdout.flush()
+
 def parse(paths):
 
     parser = Parser()
 
     for i in range(len(paths)):
         parsed = parser.parse(paths[i])
-        # graph.addTo(paths[i], parsed[0], parsed[1])
+        progress(i, len(paths), status='')
+        globals.listEl.append(paths[i])
         addToTrie(parsed[1], paths[i])
 
+    progress(len(paths), len(paths), status='') # da bi stiglo do 100%
     globals.start = paths[0]
 
 def addToTrie(words, path):
@@ -44,37 +58,37 @@ def addToTrie(words, path):
         globals.trie.add(path, words[i])
 
 def startingSearch(givenWord):
-    # TODO:
-    # function for starting
-    # it will call all needed functions
-
-    returnValue = parseQueryOrdinary(graph, globals.givenWord)
+    returnValue = parseQueryOrdinary(globals.givenWord)
 
     if not returnValue[0]:
-        print("Incorrect query!")
-        print("Try ['word'] 'operator' ['word']")
+        print(colors.RED + "Incorrect query!" + colors.END)
+        print(colors.RED + "Try ['word'] 'operator' ['word']" + colors.END)
+    elif len(returnValue[1]) == 0:
+        print(colors.RED + "No html page found." + colors.END)
     else:
         printPages(returnValue[1])
 
-    for keys in returnValue[1]:
-        print(keys)
-        
-def printPages(list):
-    pass
-
 if __name__ == '__main__':
     start_time = time.time()
-    globals.root = "test-skup"
-    # random path just for the start
-    # globals.givenDir = raw_input("Unesite zeljeni direktorijum: ")
 
-    graph = Graph()
+    globals.root = input("Enter path for loading: ")
+    # graph = Graph()
     getAllHtmlFiles(globals.root)
-    print (time.time() - start_time)
 
-    globals.givenWord = input("Enter your query: ")
+    print()
+    print (colors.GREEN + "Time elapsed:", str(time.time() - start_time) + colors.END)
 
-    startingSearch(globals.givenWord)
+    print("For exiting insert 'x'")
 
+    while True:
+
+        upit = input("Enter your query: ")
+
+        if upit == "x" or upit == "X":
+            print(colors.RED + "See ya soon!" + colors.END)
+            exit()
+
+        globals.givenWord = upit
+        startingSearch(globals.givenWord)
 
     # check if user wants to exit (put some random key for exiting
