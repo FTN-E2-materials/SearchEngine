@@ -6,6 +6,7 @@ class Node:
         self.data = data
         self.children = dict()
         self.count = count
+        self.wordShowing = dict()
 
     def addChild(self, key, data = None):
         self.children[key] = Node(key, data)

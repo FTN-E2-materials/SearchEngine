@@ -12,6 +12,7 @@ from graph import Graph
 from node import Node
 from vertex import Vertex
 from parseQuery import *
+from trie import Trie
 
 def getAllHtmlFiles(path):
     paths = []
@@ -21,7 +22,7 @@ def getAllHtmlFiles(path):
             if file.endswith('.html'):
                 p = root + "/" + file
                 paths.append(p)
-                print(p)
+                #print(p)
     if not paths:
         print("There are no html files in the directory!")
     else:
@@ -33,9 +34,14 @@ def parse(paths):
 
     for i in range(len(paths)):
         parsed = parser.parse(paths[i])
-        graph.addTo(paths[i], parsed[0], parsed[1])
+        # graph.addTo(paths[i], parsed[0], parsed[1])
+        addToTrie(parsed[1], paths[i])
 
     globals.start = paths[0]
+
+def addToTrie(words, path):
+    for i in range(len(words)):
+        globals.trie.add(path, words[i])
 
 def startingSearch(givenWord):
     # TODO:
@@ -49,11 +55,16 @@ def startingSearch(givenWord):
         print("Try ['word'] 'operator' ['word']")
     else:
         printPages(returnValue[1])
+
+    for keys in returnValue[1]:
+        print(keys)
         
+def printPages(list):
+    pass
+
 if __name__ == '__main__':
     start_time = time.time()
     globals.root = "test-skup"
-
     # random path just for the start
     # globals.givenDir = raw_input("Unesite zeljeni direktorijum: ")
 

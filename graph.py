@@ -10,4 +10,5 @@ class Graph:
 
         self.graph[name] = links
 
+
         # TODO: implement rest

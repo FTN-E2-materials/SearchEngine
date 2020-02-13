@@ -5,25 +5,31 @@ def findLists(graph, word1, word2):
     tempList1 = mySet()
     tempList2 = mySet()
 
-    for keys in graph.graph.keys():
-        contains1 = globals.allFiles[keys].wordTrie.isWord(word1)
-        contains2 = globals.allFiles[keys].wordTrie.isWord(word2)
+    if word1 == word2:
+        contains1 = globals.trie.isWord(word1)
 
         if contains1[0]:
-            if keys not in tempList1:
-                tempList1.add(keys)
+            for paths in contains1[1].wordShowing.keys():
+                tempList1.add(paths)
+
+        return tempList1, None
+
+    else:
+
+        contains1 = globals.trie.isWord(word1)
+        contains2 = globals.trie.isWord(word2)
+        print(contains1, contains2)
+        if contains1[0]:
+            for paths in contains1[1].wordShowing.keys():
+                tempList1.add(paths)
+                print(contains1[1].wordShowing[paths])
 
         if contains2[0]:
-            if keys not in tempList2:
-                tempList2.add(keys)
-
-        if keys.find(word1) != -1:
-            if keys not in tempList1:
-                tempList1.add(keys)
-
-        if keys.find(word2) != -1:
-            if keys not in tempList2:
-                tempList2.add(keys)
+            for paths in contains2[1].wordShowing.keys():
+                tempList2.add(paths)
+                print (contains2[1].wordShowing[paths])
 
 
-    return tempList1, tempList2
+
+        print (tempList1.__len__(), tempList2.__len__())
+        return tempList1, tempList2
