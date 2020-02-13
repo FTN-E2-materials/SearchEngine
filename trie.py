@@ -9,24 +9,11 @@ class Trie:
         word = wordForAdd.lower()
         # globals.words.append(word)
         curr_node = self.head
-
         j = 0
-
-        word_finish = True
-
-        for i in range(len(word)):
-            if word[i] in curr_node.children:
-                curr_node = curr_node.children[word[i]]
-            else:
-                word_finish = False
-                break
-
-        if not word_finish:
-            while i < len(word):
-                curr_node.addChild(word[i])
-                curr_node = curr_node.children[word[i]]
-                i += 1
-
+        for char in word:
+            if char not in curr_node.children:
+                curr_node.addChild(char)
+            curr_node = curr_node.children[char]
 
         if page not in curr_node.wordShowing.keys():
             j = 0
@@ -35,7 +22,7 @@ class Trie:
 
         curr_node.data = word
         curr_node.count += 1
-        curr_node.wordShowing[page] = j + 1 
+        curr_node.wordShowing[page] = j + 1
 
     def isWord(self, wordForSearch):
         word = wordForSearch.lower()
