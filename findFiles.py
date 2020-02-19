@@ -1,22 +1,27 @@
 import globals
 from mySet import mySet
 
-def findLists(word1, word2):
-    tempList1 = mySet()
-    tempList2 = mySet()
+def findLists(words):
+    listOfSets = []
+    '''
+    if len(words) == 1:
+        tempList1 = mySet()
 
-    if word1 == word2:
-        contains1 = globals.trie.isWord(word1)
+        contains1 = globals.trie.isWord(words[0])
 
         if contains1[0]:
             for paths in contains1[1].wordShowing.keys():
                 tempList1.add(paths)
 
-        return tempList1, tempList1
+        listOfSets.append(tempList1)
 
-    else:
-        contains1 = globals.trie.isWord(word1)
-        contains2 = globals.trie.isWord(word2)
+        return listOfSets
+
+    elif len(words) == 2:
+        tempList1 = mySet()
+        tempList2 = mySet()
+        contains1 = globals.trie.isWord(words[0])
+        contains2 = globals.trie.isWord(words[1])
         if contains1[0]:
             for paths in contains1[1].wordShowing.keys():
                 tempList1.add(paths)
@@ -24,4 +29,18 @@ def findLists(word1, word2):
         if contains2[0]:
             for paths in contains2[1].wordShowing.keys():
                 tempList2.add(paths)
+
+        listOfSets.append(tempList1)
+        listOfSets.append(tempList2)
         return tempList1, tempList2
+    '''
+     #eliflen(words) > 2:
+    for i in range(0, len(words)):
+        tempList = mySet()
+        contains = globals.trie.isWord(words[i])
+        if contains[0]:
+            for paths in contains[1].wordShowing:
+                tempList.add(paths)
+
+        listOfSets.append(tempList)
+    return listOfSets
