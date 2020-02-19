@@ -61,3 +61,7 @@ class mySet:
 
     def __len__(self):
         return len(self.links)
+
+    def _get(self, i):
+        return self.links[i]
+ 
