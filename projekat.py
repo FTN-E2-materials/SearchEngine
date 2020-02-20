@@ -4,10 +4,9 @@ import re
 import os
 import time
 import random
+import glob
 import sys
 from Other import globals
-import glob
-
 from DataStructures.parser import Parser
 from DataStructures.graph import Graph
 from DataStructures.node import Node
@@ -24,6 +23,7 @@ def getAllHtmlFiles(path):
     parser = Parser()
 
     # files = glob.glob(path + '/**/*.html', recursive = True)
+
     i = 0
 
     '''
