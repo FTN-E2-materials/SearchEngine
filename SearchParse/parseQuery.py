@@ -1,9 +1,10 @@
-import globals
-from findFiles import *
-from operations import *
-from mySet import mySet
-from stack import Stack
-from parseTree import *
+from Other import globals
+from Other.colors import colors
+from SearchParse.findFiles import *
+from SearchParse.operations import *
+from DataStructures.mySet import mySet
+from DataStructures.stack import Stack
+from DataStructures.parseTree import *
 
 def parseQueryOrdinary(query):
 
@@ -111,7 +112,11 @@ def parseQueryOrdinary(query):
                 return first
             else:
                 return False, None
-
+def isOperatorParen(char):
+    if char == "&" or char == "|" or char == "!":
+        return True
+    else:
+        return False
 def parseComplexQuery(givenWord):
     originalGivenWord = givenWord
     givenWord = givenWord.replace(" ", "")
@@ -119,12 +124,24 @@ def parseComplexQuery(givenWord):
     wordList = []
 
     if givenWord.count("(") != givenWord.count(")"):
+        print(colors.RED + "Must have equal number of left and right parentheses." + colors.END)
         return False, None
 
     if givenWord[0] == "&&" or givenWord[0] == "||":
+        print(colors.RED + "Query can not start with AND/OR operator." + colors.END)
         return False, None
 
-    if givenWord[-1] == "!" or givenWord[-1] == "&&" or givenWord[-1] == "||":
+    if givenWord[-1] == "!" or givenWord[-1] == "&" or givenWord[-1] == "|":
+        print(colors.RED + "Query can not end with an operator." + colors.END)
+        return False, None
+
+    timesAnd = givenWord.count("&")
+    timesOr = givenWord.count("|")
+    rem1 = timesAnd % 2
+    rem2 = timesOr % 2
+
+    if rem1 != 0 or rem2 != 0:
+        print(colors.RED + "Invalid operator (only && and || are allowed)." + colors.END)
         return False, None
 
     word = ""
@@ -136,6 +153,7 @@ def parseComplexQuery(givenWord):
 
         if givenWord[i] == "(":
             if givenWord[i+1] == "&&" or givenWord[i+1] == "||":
+                print(colors.RED + "Word before an operator is needed." + colors.END)
                 return False, None
             else:
                 wordList.append("(")
@@ -143,6 +161,7 @@ def parseComplexQuery(givenWord):
         elif givenWord[i] == "&" and givenWord[i+1] == "&":
             num += 1
             if givenWord[i+2] == "|" or givenWord[i+2] == "&":
+                print(colors.RED + "Invalid operator." + colors.END)
                 return False, None
             else:
                 wordList.append("&&")
@@ -150,13 +169,18 @@ def parseComplexQuery(givenWord):
         elif givenWord[i] == "|" and givenWord[i+1] == "|":
             num += 1
             if givenWord[i+2] == "&" or givenWord[i+2] == "|":
+                print(colors.RED + "Invalid operator." + colors.END)
                 return False, None
             else:
                 wordList.append("||")
                 flag = True
         elif givenWord[i] == "!":
-            wordList.append("!")
-            flag = True
+            if isOperatorParen(givenWord[i+1]):
+                print(colors.RED + "Invalid operator." + colors.END)
+                return False, None
+            else:
+                wordList.append("!")
+                flag = True
         elif givenWord[i] == ")":
             wordList.append(")")
             flag = True
@@ -180,10 +204,8 @@ def parseComplexQuery(givenWord):
     print(postfix)
     print(postfix)
     tree = createParseTree(postfix)
-    printTree(tree)
-    allWords = givenWord.split()
-    wordsForSearch = []
-    return True, mySet()
+    resultSet = evaluateTree(tree)
+    return True, resultSet
 
 def toPostfix(query):
 

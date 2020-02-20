@@ -1,4 +1,4 @@
-from mySet import mySet
+from DataStructures.mySet import mySet
 
 def callOp(list1, list2, operation):
 

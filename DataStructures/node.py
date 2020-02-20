@@ -1,4 +1,4 @@
-import globals
+from Other import globals
 
 class Node:
     def __init__(self, letter = None, data = None, count = 0):

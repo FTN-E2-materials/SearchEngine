@@ -1,5 +1,7 @@
 # a binary tree with operations
-from stack import *
+from DataStructures.stack import *
+from Other import globals
+from DataStructures.mySet import mySet
 
 class TreeNode:
     def __init__(self, data):
@@ -44,3 +46,26 @@ def printTree(tree):
     while tree.right is not None:
         print(tree.right.data)
         tree = tree.right
+
+def evaluateTree(tree):
+    if tree is None:
+        return None
+    if tree.left is None and tree.right is None:
+        value = globals.trie.isWord(tree.data)
+        if value[0]:
+            tempSet = mySet()
+            for paths in value[1].wordShowing:
+                tempSet.add(paths)
+            return tempSet
+        else:
+            return mySet()
+
+    left_tree = evaluateTree(tree.left)
+    right_tree = evaluateTree(tree.right)
+
+    if tree.data == "&&":
+        return left_tree.__and__(right_tree)
+    elif tree.data == "||":
+        return left_tree.__or__(right_tree)
+    elif tree.data == "!":
+        return left_tree.komlpement(globals.listEl)

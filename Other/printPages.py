@@ -1,4 +1,4 @@
-from colors import colors
+from Other.colors import colors
 
 def printPages(list):
     number = 10 # na googlu ima 10 linkova na jednoj pretrazi

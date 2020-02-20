@@ -1,4 +1,4 @@
-from trie import Trie
+from DataStructures.trie import Trie
 
 allFiles = {}
 listEl = []

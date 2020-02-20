@@ -1,5 +1,5 @@
-from vertex import Vertex
-import globals
+from DataStructures.vertex import Vertex
+from Other import globals
 
 class Graph:
     def __init__(self):

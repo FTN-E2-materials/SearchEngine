@@ -5,18 +5,18 @@ import os
 import time
 import random
 import sys
-import globals
+from Other import globals
 import glob
 
-from parser import Parser
-from graph import Graph
-from node import Node
-from vertex import Vertex
-from parseQuery import *
-from trie import Trie
-from printPages import *
-from colors import colors
-from progressbar import *
+from DataStructures.parser import Parser
+from DataStructures.graph import Graph
+from DataStructures.node import Node
+from DataStructures.vertex import Vertex
+from SearchParse.parseQuery import *
+from DataStructures.trie import Trie
+from Other.printPages import *
+from Other.colors import colors
+from Other.progressbar import *
 
 def getAllHtmlFiles(path):
 
@@ -62,8 +62,12 @@ def startingSearch(givenWord, flag):
         returnValue = parseComplexQuery(givenWord)
 
     if not returnValue[0]:
-        print(colors.RED + "Incorrect query!" + colors.END)
-        print(colors.RED + "Try ['word'] 'operator' ['word']" + colors.END)
+        if flag == 1:
+            print(colors.RED + "Incorrect query!" + colors.END)
+            print(colors.RED + "Try ['word'] 'operator' ['word']" + colors.END)
+        else:
+            print(colors.RED + "Incorrect query" + colors.END)
+            print(colors.RED + "Try ['operator']['lparen']['words' ... ]['rparen']..." + colors.END)
     elif len(returnValue[1]) == 0:
         print(colors.RED + "No html page found." + colors.END)
     else:

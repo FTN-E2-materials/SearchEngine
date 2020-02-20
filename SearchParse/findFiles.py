@@ -1,5 +1,5 @@
-import globals
-from mySet import mySet
+from Other import globals
+from DataStructures.mySet import mySet
 
 def findLists(words):
     listOfSets = []

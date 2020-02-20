@@ -1,5 +1,5 @@
-from node import Node
-import globals
+from DataStructures.node import Node
+from Other import globals
 
 class Trie:
     def __init__(self):

@@ -1,5 +1,5 @@
-from trie import Trie
-import globals
+from DataStructures.trie import Trie
+from Other import globals
 
 class Vertex:
     # TODO: implement the rest of the vertex of the graph
