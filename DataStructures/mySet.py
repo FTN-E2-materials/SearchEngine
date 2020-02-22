@@ -64,4 +64,3 @@ class mySet:
 
     def _get(self, i):
         return self.links[i]
- 

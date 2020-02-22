@@ -6,11 +6,11 @@ import time
 import random
 import glob
 import sys
+
 from Other import globals
 from DataStructures.parser import Parser
 from DataStructures.graph import Graph
 from DataStructures.node import Node
-from DataStructures.vertex import Vertex
 from SearchParse.parseQuery import *
 from DataStructures.trie import Trie
 from Other.printPages import *
@@ -23,9 +23,7 @@ def getAllHtmlFiles(path):
     parser = Parser()
 
     # files = glob.glob(path + '/**/*.html', recursive = True)
-
     i = 0
-
     '''
     for file in files:
         parsed = parser.parse(file)
@@ -43,8 +41,10 @@ def getAllHtmlFiles(path):
             if file.endswith('.html'):
                 i += 1
                 p = os.path.join(root, file)
+                p = os.path.abspath(p)
                 globals.listEl.append(p)
                 parsed = parser.parse(p)
+                globals.graph.addPage(p, parsed[0])
                 addToTrie(parsed[1], p)
             # ovde dodavanje u graf ide
 
@@ -56,6 +56,7 @@ def addToTrie(words, path):
         globals.trie.add(path, words[i])
 
 def startingSearch(givenWord, flag):
+    startSearch = time.time()
     if flag == 1:
         returnValue = parseQueryOrdinary(givenWord)
     else:
@@ -63,36 +64,32 @@ def startingSearch(givenWord, flag):
 
     if not returnValue[0]:
         if flag == 1:
-            print(colors.RED + "Incorrect query!" + colors.END)
+            print(colors.RED + "Incorrect ordinary query!" + colors.END)
             print(colors.RED + "Try ['word'] 'operator' ['word']" + colors.END)
         else:
-            print(colors.RED + "Incorrect query" + colors.END)
+            print(colors.RED + "Incorrect complex query" + colors.END)
             print(colors.RED + "Try ['operator']['lparen']['words' ... ]['rparen']..." + colors.END)
     elif len(returnValue[1]) == 0:
         print(colors.RED + "No html page found." + colors.END)
     else:
         # ovde ce se pre printovnja pozivati funkcija za rangiranje rezultata
         # i sortiranje takvih stranica
-
+        print(colors.GREEN + "Time elapsed with search: " + str(time.time() - startSearch) + colors.END)
         printPages(returnValue[1])
 
+
 if __name__ == '__main__':
-    start_time = time.time()
-
     globals.root = input("Enter path for loading: ")
-    # graph = Graph()
+    start_time = time.time()
     getAllHtmlFiles(globals.root)
-
-    print()
     print (colors.GREEN + "Time elapsed: ", str(time.time() - start_time) + colors.END)
-
 
     while True:
         print("1. Regular search (maximum one operator and, or, not).")
         print("2. Advanced search.")
         print("'X' or 'x' for exiting.")
 
-        srch = input()
+        srch = input("Your input: ")
 
         if srch == "x" or srch == "X":
             print(colors.BLUE + "See ya soon!" + colors.END)

@@ -1,10 +1,9 @@
 from DataStructures.trie import Trie
+from DataStructures.graph import Graph
 
-allFiles = {}
 listEl = []
 root = "" # my test root
-words = []
-start = ""
-givenDir = "" # users wanted root
 global trie
 trie = Trie()  # sve reci
+global graph
+graph = Graph()

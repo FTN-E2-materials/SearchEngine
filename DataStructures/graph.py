@@ -1,14 +1,33 @@
-from DataStructures.vertex import Vertex
+
 from Other import globals
 
 class Graph:
     def __init__(self):
-        self.graph = {}
+        self._incoming = {}
+        self._outgoing = {}
 
-    def addTo(self, name, links, words):
-        globals.allFiles[name] = Vertex(name, words)
+    def addVertex(self, vertex):
+        self._outgoing[vertex] = []
+        if vertex not in self._incoming.keys():
+            self._incoming[vertex] = []
+            
+    def addEdge(self, vertex, vertexToAppend):
+        self._outgoing[vertex].append(vertexToAppend)
+        if vertexToAppend not in self._incoming.keys():
+            self._incoming[vertexToAppend] = []
 
-        self.graph[name] = links
+        self._incoming[vertexToAppend].append(vertex)
+    def addPage(self, vertex, links):
 
+        self.addVertex(vertex)
+        for link in links:
+            self.addEdge(vertex, link)
 
-        # TODO: implement rest
+    def get_incoming(self, vertex):
+        return list(self._incoming[vertex])
+
+    def get_outgoing(self, vertex):
+        return list(self._outgoing[vertex])
+
+    def vertices(self):
+        return list(self._outgoing.keys())

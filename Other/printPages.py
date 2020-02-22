@@ -13,12 +13,13 @@ def printPages(list):
     while True:
         printPage(list, first, last)
         print()
-        print(colors.CYAN + "\tBACK (B) \t\t\t\tNEXT (N)" + colors.END)
+        print(colors.CYAN + "BACK (B)" + colors.END)
+        print(colors.CYAN + "NEXT (N)" + colors.END)
     #    print(colors.CYAN + "\t\tBACK (B)" + colors.END)
-        print(colors.CYAN + "\t\tChange number of pages (C)" + colors.END)
-        print(colors.CYAN + "\t\tExit (X)" + colors.END)
-
-        option = input("\t\tEnter: ")
+        print(colors.CYAN + "Change number of pages (C)" + colors.END)
+        print(colors.CYAN + "Exit (X)" + colors.END)
+        print()
+        option = input("Your input: ")
 
         if option == "N" or option == "n":
             first += number
@@ -50,7 +51,7 @@ def printPages(list):
             return
 
 def printPage(list, first, last):
-    print(colors.BLUE + "\t\tPAGES:" + colors.END)
+    print(colors.BLUE + "RANK & PAGES:" + colors.END)
     print()
     for i in range(first, last, 1):
-        print(colors.BLUE + "\t\t" + list._get(i) + colors.END)
+        print(colors.BLUE + str(list[i].getRang()) + " " + list[i].getPage() + colors.END)

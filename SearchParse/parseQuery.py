@@ -5,12 +5,18 @@ from SearchParse.operations import *
 from DataStructures.mySet import mySet
 from DataStructures.stack import Stack
 from DataStructures.parseTree import *
+from Rang.countCost import *
+
+
+# ORDINARY QUERY
 
 def parseQueryOrdinary(query):
 
     query = query.lower()
     wordsForSearch = []
     operation = ""
+
+    # validation
 
     if query.find("and") != -1 and query.find("or") == -1 and query.find("not") == -1:
         times = query.count("and")
@@ -68,6 +74,8 @@ def parseQueryOrdinary(query):
     if not wordsForSearch:
         return False, None
 
+    # STARTING SEARCH
+
     if len(wordsForSearch) == 1:
         list1 = mySet()
 
@@ -77,8 +85,12 @@ def parseQueryOrdinary(query):
 
             list = findLists(wordsForSearch)
             value = callOp(list1, list[0], operation)
-            print(value[1].__len__())
-            return value
+
+            if value[0]:
+                resultSet = countCost(value[1], wordsForSearch)
+                return value[0], resultSet
+            else:
+                return value
 
         elif operation == "or":
             return False, None
@@ -88,7 +100,8 @@ def parseQueryOrdinary(query):
 
         elif operation == "":
             list = findLists(wordsForSearch)
-            return True, list[0]
+            resultSet = countCost(list[0], wordsForSearch)
+            return True, resultSet
 
     else:
         list = findLists(wordsForSearch)
@@ -96,7 +109,12 @@ def parseQueryOrdinary(query):
             list1 = list[0]
             list2 = list[1]
             value = callOp(list1, list2, operation)
-            return value
+
+            if value[0]:
+                resultSet = countCost(value[1], wordsForSearch)
+                return value[0], resultSet
+            else:
+                return value
 
         elif len(list) > 2:
             if operation == "":
@@ -104,21 +122,31 @@ def parseQueryOrdinary(query):
                 flag = False
                 if rem == 1:
                     flag = True
+
                 first = callOp(list[0], list[1], operation)
                 for i in range(2, len(list), 1):
                     value = callOp(first[1], list[i], operation)
                     first = value
 
-                return first
+                if first[0]:
+                    resultSet = countCost(first[1], wordsForSearch)
+                    return first[0], resultSet
+                else:
+                    return first
             else:
                 return False, None
-def isOperatorParen(char):
+
+
+
+# COMPLEX QUERY PARSER
+
+def isOperator(char):
     if char == "&" or char == "|" or char == "!":
         return True
     else:
         return False
 def parseComplexQuery(givenWord):
-    originalGivenWord = givenWord
+    wordsForSearch = []
     givenWord = givenWord.replace(" ", "")
     givenWord = givenWord.lower()
     wordList = []
@@ -127,7 +155,7 @@ def parseComplexQuery(givenWord):
         print(colors.RED + "Must have equal number of left and right parentheses." + colors.END)
         return False, None
 
-    if givenWord[0] == "&&" or givenWord[0] == "||":
+    if givenWord[0] == "&" or givenWord[0] == "|":
         print(colors.RED + "Query can not start with AND/OR operator." + colors.END)
         return False, None
 
@@ -152,7 +180,7 @@ def parseComplexQuery(givenWord):
 
 
         if givenWord[i] == "(":
-            if givenWord[i+1] == "&&" or givenWord[i+1] == "||":
+            if givenWord[i+1] == "&" or givenWord[i+1] == "|":
                 print(colors.RED + "Word before an operator is needed." + colors.END)
                 return False, None
             else:
@@ -175,12 +203,13 @@ def parseComplexQuery(givenWord):
                 wordList.append("||")
                 flag = True
         elif givenWord[i] == "!":
-            if isOperatorParen(givenWord[i+1]):
+            if isOperator(givenWord[i+1]):
                 print(colors.RED + "Invalid operator." + colors.END)
                 return False, None
             else:
                 wordList.append("!")
                 flag = True
+
         elif givenWord[i] == ")":
             wordList.append(")")
             flag = True
@@ -190,13 +219,15 @@ def parseComplexQuery(givenWord):
                 pass
             else:
                 wordList.append("||")
+
         elif givenWord[i] != "&" and givenWord[i] != "|":
             word += givenWord[i]
-            print(givenWord[i])
             if i == len(givenWord) - 1:
                 wordList.append(word)
+                wordsForSearch.append(word)
             elif givenWord[i+1] == "&" or givenWord[i+1] == "|" or givenWord[i+1] == ")" or givenWord[i+1] == "(" or givenWord[i+1] == "!":
                 wordList.append(word)
+                wordsForSearch.append(word)
                 flag = False
                 word = ""
 
@@ -205,7 +236,8 @@ def parseComplexQuery(givenWord):
     print(postfix)
     tree = createParseTree(postfix)
     resultSet = evaluateTree(tree)
-    return True, resultSet
+    finalResultSet = countCost(resultSet, wordsForSearch)
+    return True, finalResultSet
 
 def toPostfix(query):
 
