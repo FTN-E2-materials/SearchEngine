@@ -18,7 +18,7 @@ from Other.colors import colors
 from Other.progressbar import *
 
 def getAllHtmlFiles(path):
-
+    start_time = time.time()
     print("This may take a while... ")
     parser = Parser()
 
@@ -48,8 +48,12 @@ def getAllHtmlFiles(path):
                 addToTrie(parsed[1], p)
             # ovde dodavanje u graf ide
 
+    print (colors.GREEN + "Time elapsed: ", str(time.time() - start_time) + colors.END)
     if not globals.listEl:
         print("There are no html files in the directory!")
+        return False
+    else:
+        return True
 
 def addToTrie(words, path):
     for i in range(len(words)):
@@ -79,10 +83,15 @@ def startingSearch(givenWord, flag):
 
 
 if __name__ == '__main__':
-    globals.root = input("Enter path for loading: ")
-    start_time = time.time()
-    getAllHtmlFiles(globals.root)
-    print (colors.GREEN + "Time elapsed: ", str(time.time() - start_time) + colors.END)
+    done = True
+
+    while done:
+        globals.root = input("Enter path for loading: ")
+        found = getAllHtmlFiles(globals.root)
+        if found:
+            done = False
+        else:
+            done = True 
 
     while True:
         print("1. Regular search (maximum one operator and, or, not).")

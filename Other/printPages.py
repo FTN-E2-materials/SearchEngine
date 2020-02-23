@@ -54,4 +54,4 @@ def printPage(list, first, last):
     print(colors.BLUE + "RANK & PAGES:" + colors.END)
     print()
     for i in range(first, last, 1):
-        print(colors.BLUE + str(list[i].getRang()) + " " + list[i].getPage() + colors.END)
+        print(colors.BLUE + "%5s" % (str(i + 1)) + ".", "%10.2f " % list[i].getRang(), list[i].getPage() + colors.END)
