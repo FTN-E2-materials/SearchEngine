@@ -7,7 +7,6 @@ from DataStructures.stack import Stack
 from DataStructures.parseTree import *
 from Rang.countCost import *
 
-
 # ORDINARY QUERY
 
 def parseQueryOrdinary(query):
@@ -21,12 +20,14 @@ def parseQueryOrdinary(query):
     if query.find("and") != -1 and query.find("or") == -1 and query.find("not") == -1:
         times = query.count("and")
         if times > 1:
+            print(colors.RED + "Only one operator is allowed." + colors.END)
             return False, None
 
         searching = query.split()
         operation = "and"
 
         if searching[0] == "and" or searching[-1] == "and":
+            print(colors.RED + "Expression can not start or end with an operator." + colors.END)
             return False, None
 
         for i in range(0, len(searching)):
@@ -36,12 +37,14 @@ def parseQueryOrdinary(query):
     elif query.find("and") == -1 and query.find("or") != -1 and query.find("not") == -1:
         times = query.count("or")
         if times > 1:
+            print(colors.RED + "Only one operator is allowed." + colors.END)
             return False, None
 
         searching = query.split()
         operation = "or"
 
         if searching[0] == "or" or searching[-1] == "or":
+            print(colors.RED + "Expression can not start or end with an operator." + colors.END)
             return False, None
 
         for i in range(0, len(searching)):
@@ -51,12 +54,14 @@ def parseQueryOrdinary(query):
     elif query.find("and") == -1 and query.find("or") == -1 and query.find("not") != -1:
         times = query.count("not")
         if times > 1:
+            print(colors.RED + "Only one operator is allowed." + colors.END)
             return False, None
 
         searching = query.split()
         operation = "not"
 
         if searching[-1] == "not":
+            print(colors.RED + "Expression can not start or end with an operator." + colors.END)
             return False, None
 
         for i in range(0, len(searching)):
@@ -72,6 +77,7 @@ def parseQueryOrdinary(query):
         return False, None
 
     if not wordsForSearch:
+        print(colors.RED + "No words for search." + colors.END)
         return False, None
 
     # STARTING SEARCH
@@ -118,11 +124,6 @@ def parseQueryOrdinary(query):
 
         elif len(list) > 2:
             if operation == "":
-                rem = len(list) % 2
-                flag = False
-                if rem == 1:
-                    flag = True
-
                 first = callOp(list[0], list[1], operation)
                 for i in range(2, len(list), 1):
                     value = callOp(first[1], list[i], operation)
@@ -135,8 +136,6 @@ def parseQueryOrdinary(query):
                     return first
             else:
                 return False, None
-
-
 
 # COMPLEX QUERY PARSER
 
@@ -177,7 +176,6 @@ def parseComplexQuery(givenWord):
 
     for i in range(0, len(givenWord), 1):
         num = 0
-
 
         if givenWord[i] == "(":
             if givenWord[i+1] == "&" or givenWord[i+1] == "|":
@@ -235,9 +233,13 @@ def parseComplexQuery(givenWord):
     print(postfix)
     print(postfix)
     tree = createParseTree(postfix)
+    # printTree(tree)
     resultSet = evaluateTree(tree)
     finalResultSet = countCost(resultSet, wordsForSearch)
+    print(wordsForSearch)
     return True, finalResultSet
+
+# prevodjenje u postfiksnu notaciju
 
 def toPostfix(query):
 

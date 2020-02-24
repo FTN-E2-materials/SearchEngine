@@ -21,7 +21,6 @@ def createParseTree(postfixNotation):
             tempStack.push(tempNode)
             # stavljamo na stek da bismo mogli kasnije
             # da koristimo za skupovne operacije
-
         else:
             if word != "!":
                 tempNode = TreeNode(word)
@@ -36,16 +35,20 @@ def createParseTree(postfixNotation):
     return tempStack.pop()
 
 def printTree(tree):
-    root = tree
-    print(tree.data)
+    if tree is None:
+        return None
+    if tree.left is None and tree.right is None:
+        print(tree.data)
 
-    while tree.left is not None:
-        print(tree.left.data)
-        tree = tree.left
-    tree = root
-    while tree.right is not None:
-        print(tree.right.data)
-        tree = tree.right
+    left = printTree(tree.left)
+    right = printTree(tree.right)
+
+    if tree.data == "&&":
+        print("&&")
+    elif tree.data == "||":
+        print("||")
+    elif tree.data == "!":
+        print("!")
 
 def evaluateTree(tree):
     if tree is None:

@@ -44,7 +44,8 @@ def costByWord(words, resultSet):
 
     for word in words:
         value = globals.trie.isWord(word)
-        if value[1]:
+        
+        if value[0]:
             for page in value[1].wordShowing:
                 if page in showPages.keys():
                     showPages[page] += value[1].wordShowing[page]
@@ -55,11 +56,9 @@ def costByWord(words, resultSet):
     return showPages
 
 def costByLinks(resultSet, showingByWord):
-
     for page in resultSet:
-
         adding = 0
         for node in globals.graph.get_incoming(page):
             if node in showingByWord.keys():
                 adding += showingByWord[node]
-                showingByWord[page] = adding*0.3
+                showingByWord[page] = adding * 0.3

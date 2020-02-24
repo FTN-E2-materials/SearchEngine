@@ -1,4 +1,3 @@
-
 from Other import globals
 
 class Graph:
@@ -10,7 +9,6 @@ class Graph:
         self._outgoing[vertex] = []
         if vertex not in self._incoming.keys():
             self._incoming[vertex] = []
-            
     def addEdge(self, vertex, vertexToAppend):
         self._outgoing[vertex].append(vertexToAppend)
         if vertexToAppend not in self._incoming.keys():

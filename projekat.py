@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 import re
 import os
 import time
@@ -21,9 +19,8 @@ def getAllHtmlFiles(path):
     start_time = time.time()
     print("This may take a while... ")
     parser = Parser()
-
     # files = glob.glob(path + '/**/*.html', recursive = True)
-    i = 0
+    # i = 0
     '''
     for file in files:
         parsed = parser.parse(file)
@@ -35,18 +32,18 @@ def getAllHtmlFiles(path):
     progress(len(files), len(files), status = '')
     '''
 # zbog uporedjivanja brzine
+# na linuxu radi brze os.walk
+# zato je i ostavljen
 
     for root, dirs, files in os.walk(path):
         for file in files:
             if file.endswith('.html'):
-                i += 1
                 p = os.path.join(root, file)
                 p = os.path.abspath(p)
                 globals.listEl.append(p)
                 parsed = parser.parse(p)
                 globals.graph.addPage(p, parsed[0])
                 addToTrie(parsed[1], p)
-            # ovde dodavanje u graf ide
 
     print (colors.GREEN + "Time elapsed: ", str(time.time() - start_time) + colors.END)
     if not globals.listEl:
@@ -76,8 +73,6 @@ def startingSearch(givenWord, flag):
     elif len(returnValue[1]) == 0:
         print(colors.RED + "No html page found." + colors.END)
     else:
-        # ovde ce se pre printovnja pozivati funkcija za rangiranje rezultata
-        # i sortiranje takvih stranica
         print(colors.GREEN + "Time elapsed with search: " + str(time.time() - startSearch) + colors.END)
         printPages(returnValue[1])
 
@@ -91,7 +86,7 @@ if __name__ == '__main__':
         if found:
             done = False
         else:
-            done = True 
+            done = True
 
     while True:
         print("1. Regular search (maximum one operator and, or, not).")
