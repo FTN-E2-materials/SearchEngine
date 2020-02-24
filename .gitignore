@@ -5,7 +5,7 @@ __pycache__/
 .idea
 # C extensions
 *.so
-
+.~lock.ProjekatPrezentacija.pptx#
 # Distribution / packaging
 .Python
 build/
