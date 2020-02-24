@@ -68,6 +68,11 @@ def parseQueryOrdinary(query):
             if searching[i] != "not":
                 wordsForSearch.append(searching[i])
 
+        if len(wordsForSearch) > 1:
+            if searching[0] == "not":
+                print(colors.RED + "More than one operator!" + colors.END)
+                return False, None
+
     elif query.find("and") == -1 and query.find("or") == -1 and query.find("not") == -1:
         searching = query.split()
 

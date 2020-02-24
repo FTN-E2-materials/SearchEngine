@@ -31,15 +31,23 @@ def getAllHtmlFiles(path):
         #globals.listEl.append(file)
     progress(len(files), len(files), status = '')
     '''
+
 # zbog uporedjivanja brzine
 # na linuxu radi brze os.walk
 # zato je i ostavljen
+
+    if not os.path.isabs(path):
+        path = os.path.abspath(path)
+    else:
+        pass
 
     for root, dirs, files in os.walk(path):
         for file in files:
             if file.endswith('.html'):
                 p = os.path.join(root, file)
-                p = os.path.abspath(p)
+                #print(p)
+                #p = os.path.abspath(p)
+                #print(p)
                 globals.listEl.append(p)
                 parsed = parser.parse(p)
                 globals.graph.addPage(p, parsed[0])
@@ -79,9 +87,13 @@ def startingSearch(givenWord, flag):
 
 if __name__ == '__main__':
     done = True
+    print("If you want to exit at any time type x or X.")
 
     while done:
         globals.root = input("Enter path for loading: ")
+        if globals.root == "x" or globals.root == "X":
+            exit()
+
         found = getAllHtmlFiles(globals.root)
         if found:
             done = False

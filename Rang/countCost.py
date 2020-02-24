@@ -44,7 +44,7 @@ def costByWord(words, resultSet):
 
     for word in words:
         value = globals.trie.isWord(word)
-        
+
         if value[0]:
             for page in value[1].wordShowing:
                 if page in showPages.keys():
