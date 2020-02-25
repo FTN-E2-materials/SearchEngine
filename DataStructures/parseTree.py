@@ -17,8 +17,10 @@ def createParseTree(postfixNotation):
         if word != "&&" and word != "||" and word != "!":
             # kreiranje novog cvora jer je trenutni token
             # rec za pretragu (levo ili desno dete)
+            
             tempNode = TreeNode(word)
             tempStack.push(tempNode)
+
             # stavljamo na stek da bismo mogli kasnije
             # da koristimo za skupovne operacije
         else:
