@@ -42,10 +42,10 @@ def getAllHtmlFiles(path):
         path = os.path.abspath(path)
     else:
         pass
-
+        
     for root, dirs, files in os.walk(path):
         for file in files:
-            if file.endswith('.html'):
+            if file.endswith('.html') or file.endswith('.htm'):
                 p = os.path.join(root, file)
                 #print(p)
                 #p = os.path.abspath(p)
