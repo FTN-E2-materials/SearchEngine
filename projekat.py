@@ -10,17 +10,19 @@ from DataStructures.parser import Parser
 from DataStructures.graph import Graph
 from DataStructures.node import Node
 from SearchParse.parseQuery import *
+from SearchParse.parseComplexQuery import *
 from DataStructures.trie import Trie
 from Other.printPages import *
 from Other.colors import colors
-from Other.progressbar import *
 
 def getAllHtmlFiles(path):
     start_time = time.time()
     print("This may take a while... ")
     parser = Parser()
+
     # files = glob.glob(path + '/**/*.html', recursive = True)
     # i = 0
+
     '''
     for file in files:
         parsed = parser.parse(file)
