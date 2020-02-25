@@ -108,7 +108,7 @@ def parseComplexQuery(givenWord):
     postfix = toPostfix(" ".join(wordList))
     print(postfix)
     tree = createParseTree(postfix)
-    
+
     resultSet = evaluateTree(tree)
     finalResultSet = countCost(resultSet, wordsForSearch)
 
@@ -127,7 +127,6 @@ def toPostfix(query):
     opstack = Stack()
     postfix = []
     tokens = query.split()
-    print(tokens)
     wordsInARow = 0
 
     for token in tokens:
@@ -143,7 +142,6 @@ def toPostfix(query):
                     postfix.append(temp)
             wordsInARow = 0
         elif token == "&&" or token == "||" or token == "!":
-            print(token)
             while (not opstack.isEmpty() and precedence[opstack.peek()] >= precedence[token]):
                 postfix.append(opstack.pop())
             opstack.push(token)

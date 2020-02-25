@@ -28,10 +28,11 @@ class Trie:
         word = wordForSearch.lower()
 
         if word == '':
-            return False
+            return False, None
         if word is None:
             # should add error message
             print ("Error")
+            return False, None
 
         # starting from zero
         curr_node = self.head
